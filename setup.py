@@ -10,7 +10,7 @@ with open('README.md') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['requests','matplotlib','pandas',json]
+requirements = ['requests','matplotlib','pandas']
 
 test_requirements = ['pytest>=3', ]
 
