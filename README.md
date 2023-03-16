@@ -142,14 +142,14 @@ Use this package to prepare datasets and build models as well as deploy, monitor
 
 ## More resources
 
-You can find our AutoML FAQ Page [here](https://geoiq.io/products/no-code-ml) and, access our Data Catalogue [here](https://catalog.geoiq.io/in).
+You can find our AutoML FAQ Page [here](https://geoiq.io/products/no-code-ml) and, access our Data Catalogue [here](https://catalog.geoiq.io/us).
 
     
 
 
 ## Contact us
 
-For questions or issues with using this code, please [add a New Issue](https://github.com/geoiq-io/geoiq_automl/issues/new) and we'll respond as quickly as possible.
+For questions or issues with using this code, please [add a New Issue](https://github.com/geoiq-io/geoiq_automl_us/issues/new) and we'll respond as quickly as possible.
 
 To get access to GeoIQ sample data please contact us [here](https://www.geoiq.io/contact)!
 
