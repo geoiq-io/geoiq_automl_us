@@ -136,7 +136,7 @@ Use this package to prepare datasets and build models as well as deploy, monitor
 
 
 
-## See [demo_geoiq_automl.ipynb](https://github.com/geoiq-io/geoiq_automl_us/blob/main/tests/final_demo_geoiq_automl_us.ipynb) for more details.
+## See [demo_geoiq_automl.ipynb](https://github.com/geoiq-io/geoiq_automl_us/blob/main/tests/final_demo_geoiq_automl.ipynb) for more details.
 
 
 
