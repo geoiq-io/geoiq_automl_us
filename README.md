@@ -22,7 +22,7 @@ Use this package to prepare datasets and build models as well as deploy, monitor
     import geoiq_automl
     
     ## AutoML object
-    result = geoiq_automl.automl('API KEY')
+    result = geoiq_automl_us.automl('API KEY')
     ```
     
    
