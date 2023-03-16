@@ -40,13 +40,13 @@ Use this package to prepare datasets and build models as well as deploy, monitor
     
     dataset_id = result.create_dataset(df, dataset_name ='test_dataset' ,dv_col = 'dv_90', dv_positive = '1',latitude_col = "geo_latitude" ,
           longitude_col = "geo_longitude",unique_col = 'geoiq_identifier_col',geocoding = 'F',
-          address_col = '\'\'', pincode_col = '\'\'' , additional_vars = '[]')
+          address_col = '', pincode_col = '' , additional_vars = '[]')
     ```
     2.2 ****Geocoding required****
     ```bash
     
-    dataset_id = result.create_dataset(df, dataset_name ='test_dataset' ,dv_col = 'dv_90', dv_positive = '1',latitude_col = "" ,
-          longitude_col = "",unique_col = 'geoiq_identifier_col',geocoding = 'T',
+    dataset_id = result.create_dataset(df, dataset_name ='test_dataset' ,dv_col = 'dv_90', dv_positive = '1',latitude_col = '' ,
+          longitude_col = '',unique_col = 'geoiq_identifier_col',geocoding = 'T',
           address_col = 'complete_address', pincode_col = 'pin_code_name' , additional_vars = '[]')
     ```
 
