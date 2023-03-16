@@ -58,7 +58,9 @@ Use this package to prepare datasets and build models as well as deploy, monitor
     The easiest way to enrich a file like this (with *all* the available GeoIQ features) is by running:
 
     ```bash
-    result.data_enrichment(dataset_id,['p_retail_es_pt_500','mat_wall_mud_unbrnt_brck_perc_500','p_health_hp_np_1000'])
+    result.data_enrichment(dataset_id,['cn_mbl_int_spd_lt_500',
+                        'acs5_19_indiv_income_f_20000_to_22499_blockgroup',
+                        'acs5_19_hh_built_1950_to_1959_blockgroup'])
     ```
 
     S3 bucket link will be returned, in which you have your un-compressed GeoIQ data.
