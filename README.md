@@ -40,13 +40,13 @@ Use this package to prepare datasets and build models as well as deploy, monitor
     
     dataset_id = result.create_dataset(df, dataset_name ='test_dataset' ,dv_col = 'dv_90', dv_positive = '1',latitude_col = "geo_latitude" ,
           longitude_col = "geo_longitude",unique_col = 'geoiq_identifier_col',geocoding = 'F',
-          address_col = '\'\'', pincode_col = '\'\'' , additional_vars = '[]')
+          address_col = '', pincode_col = '' , additional_vars = '[]')
     ```
     2.2 ****Geocoding required****
     ```bash
     
-    dataset_id = result.create_dataset(df, dataset_name ='test_dataset' ,dv_col = 'dv_90', dv_positive = '1',latitude_col = "" ,
-          longitude_col = "",unique_col = 'geoiq_identifier_col',geocoding = 'T',
+    dataset_id = result.create_dataset(df, dataset_name ='test_dataset' ,dv_col = 'dv_90', dv_positive = '1',latitude_col = '' ,
+          longitude_col = '',unique_col = 'geoiq_identifier_col',geocoding = 'T',
           address_col = 'complete_address', pincode_col = 'pin_code_name' , additional_vars = '[]')
     ```
 
@@ -58,7 +58,9 @@ Use this package to prepare datasets and build models as well as deploy, monitor
     The easiest way to enrich a file like this (with *all* the available GeoIQ features) is by running:
 
     ```bash
-    result.data_enrichment(dataset_id,['p_retail_es_pt_500','mat_wall_mud_unbrnt_brck_perc_500','p_health_hp_np_1000'])
+    result.data_enrichment(dataset_id,['cn_mbl_int_spd_lt_500',
+                        'acs5_19_indiv_income_f_20000_to_22499_blockgroup',
+                        'acs5_19_hh_built_1950_to_1959_blockgroup'])
     ```
 
     S3 bucket link will be returned, in which you have your un-compressed GeoIQ data.
@@ -134,20 +136,20 @@ Use this package to prepare datasets and build models as well as deploy, monitor
 
 
 
-## See [demo_geoiq_automl.ipynb](https://github.com/geoiq-io/geoiq_automl/blob/main/tests/final_demo_geoiq_automl.ipynb) for more details.
+## See [demo_geoiq_automl.ipynb](https://github.com/geoiq-io/geoiq_automl_us/blob/main/tests/final_demo_geoiq_automl.ipynb) for more details.
 
 
 
 ## More resources
 
-You can find our AutoML FAQ Page [here](https://geoiq.io/products/no-code-ml) and, access our Data Catalogue [here](https://catalog.geoiq.io/in).
+You can find our AutoML FAQ Page [here](https://geoiq.io/products/no-code-ml) and, access our Data Catalogue [here](https://catalog.geoiq.io/us).
 
     
 
 
 ## Contact us
 
-For questions or issues with using this code, please [add a New Issue](https://github.com/geoiq-io/geoiq_automl/issues/new) and we'll respond as quickly as possible.
+For questions or issues with using this code, please [add a New Issue](https://github.com/geoiq-io/geoiq_automl_us/issues/new) and we'll respond as quickly as possible.
 
 To get access to GeoIQ sample data please contact us [here](https://www.geoiq.io/contact)!
 
