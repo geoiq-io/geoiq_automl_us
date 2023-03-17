@@ -97,12 +97,12 @@ class automl:
             'address': '\'\'',
             'pincode': '\'\'',
             'user_selected_vars': f'{additional_vars}'}
-        elif (pincode_col == ''):
+        elif (pincode_col == '')&(latitude_col == '')&(longitude_col == ''):
             payload={'dataset_name': dataset_name,
             'dv_col': dv_col,
             'dv_positive': dv_positive,
-            'latitude':latitude_col,
-            'longitude':longitude_col,
+            'latitude':'""',
+            'longitude':'""',
             'unique_col': unique_col,
             'geocoding': geocoding,
             'address': address_col,
