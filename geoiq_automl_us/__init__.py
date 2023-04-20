@@ -1,6 +1,4 @@
 
-
-
 """
 geoiq_automl_us
 ~~~~~~
@@ -20,7 +18,84 @@ import json
 
 
 class automl:
-    """ """
+    """
+    A Python package for creating models using the geoiq automl platform.
+
+    This class provides methods for interacting with the geoiq automl API, including creating and managing datasets,
+    training models, and making predictions.
+
+    Parameters
+    ----------
+    authorization_key : str
+        The authorization key for accessing the geoiq automl API.
+
+    Attributes
+    ----------
+    headers : dict
+        The headers used in API requests, including the authorization key and content type.
+
+    Methods
+    -------
+    __init__(authorization_key)
+        Constructor method for initializing the automl object.
+        batch_prediction_download(prediction_id, download_path)
+        Download the results of batch predictions as a CSV file.
+    create_custom_model
+        Create a custom model on a specific dataset with the given model parameters.
+    create_dataset
+        Create a new dataset using a CSV file.
+    create_deployed_model_endpoint
+        Create a deployed model endpoint for making predictions using a trained model.
+    create_lift_chart
+        Generate a lift chart for a trained model.
+    create_roc_chart
+        Generate a ROC chart for a trained model.
+    create_validation_dataset
+        Create a validation dataset for a specific dataset with the given validation percentage.
+    create_validation_lift_chart
+        Generate a lift chart for a trained model using a validation dataset.
+    create_validation_roc_chart(model_id, validation_dataset_id)
+        Generate a ROC chart for a trained model using a validation dataset.
+    data_enrichment
+        Perform data enrichment on a specific dataset.
+    dataset_info
+        Get information about a specific dataset.
+    delete_dataset
+        Delete a dataset.
+    delete_model
+        Delete a trained model.
+    describe_dataset
+        Get the progress status of dataset creation and models trained on the dataset.
+    describe_model
+        Get information about a specific trained model.
+    eda
+        Perform exploratory data analysis on a specific dataset.
+    get_confusion_matrix
+        Get the confusion matrix for a trained model.
+    get_deployed_model_endpoint
+        Get information about a deployed model endpoint.
+    get_feature_importance
+        Get the feature importance scores for a trained model.
+    get_gains_table
+        Get the gains table for a trained model.
+    get_model_var
+        Get the variable summary for a trained model.
+    get_validation_gains_table
+        Get the gains table for a trained model using a validation dataset.
+    get_validation_psi_table
+        Get the PSI (Population Stability Index) table for a trained model using a validation dataset.
+    list_datasets
+        List all the datasets created.
+    list_models
+        List all the models created on a specific dataset.
+    list_validation_datasets
+        List all the validation datasets created for a specific dataset.
+    model_summary
+        Get the summary of a specific trained model.
+    variable_distribution_plot
+        Generate a variable distribution plot for a specific dataset and variable.
+
+    """
     def __init__(self, authorization_key):
         self.headers = {
             'x-api-key': authorization_key,
@@ -35,35 +110,37 @@ class automl:
           longitude_col = '',unique_col = 'geoiq_identifier_col',geocoding = 'false',
           address_col = '', pincode_col = '' , additional_vars = [] ):
         """
-
+        Creates a dataset on the geoiq automl platform using the provided dataframe.
+        
         Parameters
         ----------
-        df : A dataframe containing the user data, which should contains target variable, customer location details, and additional variables. 
-            
-        dataset_name : Name of the dataset
-             (Default value = 'test')
-        dv_col : Target variable column name
-             (Default value = 'dv')
-        dv_positive : Specify the good observation in the dataset 
-             (Default value = '1')
-        latitude_col : Latitutde column in the dataframe
-             (Default value = "geo_latitude")
-        longitude_col : Latitutde column in the dataframe
-             (Default value = "geo_longitude")
-        unique_col : Unique identifier in the dataset
-             (Default value = 'geoiq_identifier_col')
-        geocoding : If geocoding is required need to be true
-             (Default value = 'false')
-        address_col : Address column in the dataframe
-             (Default value = '\'\'')
-        pincode_col : Pincode column in the dataframe
-             (Default value = '\'\'')
-        additional_vars : Additional variables need to be passed in the creation of the model
-             (Default value = '[]')
-
+        df : pandas DataFrame
+            A dataframe containing the user data, which should contain the target variable, customer location details, and additional variables.
+        dataset_name : str, optional
+            Name of the dataset (default is 'sample_data').
+        dv_col : str, optional
+            Target variable column name (default is 'dv').
+        dv_positive : str, optional
+            Specify the positive observation in the dataset (default is '1').
+        latitude_col : str, optional
+            Latitude column in the dataframe (default is '').
+        longitude_col : str, optional
+            Longitude column in the dataframe (default is '').
+        unique_col : str, optional
+            Unique identifier in the dataset (default is 'geoiq_identifier_col').
+        geocoding : str, optional
+            If geocoding is required, set to 'true' (default is 'false').
+        address_col : str, optional
+            Address column in the dataframe (default is '').
+        pincode_col : str, optional
+            Pincode column in the dataframe (default is '').
+        additional_vars : list, optional
+            Additional variables to be passed in the creation of the model (default is []).
+        
         Returns
         -------
-
+        dataset_id : str
+            Unique identifier for the dataset.
         """
         url = "https://automlapis-us.geoiq.io/wrapper/prod/dataset/v1.0/createdataset"
         
@@ -129,18 +206,35 @@ class automl:
 
     def data_enrichment(self,dataset_id, var_list):
         """
+        Enriches the data in the dataset with GeoIQ variables and returns a download URL.
 
         Parameters
         ----------
-        dataset_id : An unique identifier for the dataset
-            
-        var_list : List of variables need to be extracted
-            
+        dataset_id : str
+            Unique identifier for the dataset.
+        var_list : list
+            List of variables to be extracted.
 
         Returns
         -------
-        A url through which enriched data conatining geoiq variables can be downloaded. 
-        
+        str
+            A URL through which enriched data containing GeoIQ variables can be downloaded.
+
+
+        Notes
+        -----
+        This function makes a POST request to the GeoIQ API to enrich the data in the dataset with
+        the specified GeoIQ variables. The dataset_id parameter should be a valid identifier for
+        an existing dataset in the GeoIQ system. The var_list parameter should be a list of
+        variable names to be extracted. The function returns a download URL for the enriched data
+        in JSON format.
+
+        Examples
+        --------
+        >>> dataset_id = "12345"
+        >>> var_list = ["var1", "var2", "var3"]
+        >>> url = self.data_enrichment(dataset_id, var_list)
+    
 
         """
         url = "https://automlapis-us.geoiq.io/wrapper/prod/dataset/v1.0/downloadgeoiqvarsdata"
@@ -166,17 +260,20 @@ class automl:
 
     def describe_dataset(self,dataset_id):
         """
+        Retrieve the progress status details of the dataset creation process for the given dataset identifier.
 
         Parameters
         ----------
-        dataset_id : An unique identifier for the dataset
-            
+        dataset_id : str
+            Unique identifier for the dataset.
 
         Returns
         -------
-        Return a dict containing the dataset creation progress status details
-
+        dict
+            A dictionary containing the progress status details of the dataset creation process. If the dataset
+            creation is complete, it also includes the details of the models created on the dataset.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/progress/v1.0/getdatasetprogress"
         payload = json.dumps({
           "dataset_id": dataset_id
@@ -195,7 +292,8 @@ class automl:
             print(f"Dataset creation is completed for this dataset id {dataset_id}")
             return response.json()['data']
         else:
-            return (response.json()['data']['progress'][0])
+            progress_dict  = response.json()['data']['progress'][0]
+            return {key: progress_dict[key] for key in ['dataset_id','dataset_name','status_text']}
             
 
     
@@ -205,18 +303,18 @@ class automl:
 
     def list_datasets(self):
         """
+        Lists all the datasets created by the user.
 
         Parameters
         ----------
-        No Parameters required
-            
+        None
 
         Returns
         -------
-        Lists alll the datasets created by the user
-        
-
+        pandas.DataFrame
+            DataFrame containing information about all the datasets created by the user.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/dataset/v1.0/getalldataset"
 
         payload={}
@@ -232,17 +330,19 @@ class automl:
 
     def list_models(self,dataset_id):
         """
+        Retrieve a list of all the models created on the given dataset.
 
         Parameters
         ----------
-        dataset_id : An unique identifier for the dataset
-            
+        dataset_id : str
+            Unique identifier for the dataset.
 
         Returns
         -------
-        Lists alll the models created on the given dataset
-
+        pandas.DataFrame
+            A DataFrame containing information about all the models created on the given dataset.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getalldatasetmodels"
 
         payload = json.dumps({
@@ -261,16 +361,40 @@ class automl:
 
     def eda(self,dataset_id):
         """
+        Performs Exploratory Data Analysis (EDA) on a given dataset and returns the results as a Pandas DataFrame.
 
         Parameters
         ----------
-        dataset_id :  An unique identifier for the dataset
-            
+        dataset_id : str
+            A unique identifier for the dataset to perform EDA on.
 
         Returns
         -------
-        Returns the dataframe containing exploratory data analysis on the given dataframe
+        pandas.DataFrame
+            A DataFrame containing the results of the EDA, including various statistical measures and information
+            about the dataset's columns.
 
+
+        Notes
+        -----
+        This function makes a POST request to the GeoIQ API to perform EDA on the given dataset. The dataset_id
+        parameter should be a valid identifier for an existing dataset in the GeoIQ system. The function returns
+        the results of the EDA in the form of a Pandas DataFrame, which includes information such as column names,
+        column types, IV (Information Value), AUC (Area Under Curve), bins, catchment, category, F-test p-value,
+        T-test p-value, description, deviation, direction, ID, KS (Kolmogorov-Smirnov statistic), major category,
+        max KS, mean, name, normalization level, ROC (Receiver Operating Characteristic) curve, standard deviation,
+        sub-category name, unique count, and variable. The DataFrame is sorted by IV in descending order.
+
+        Examples
+        --------
+        >>> dataset_id = "12345"
+        >>> df_eda = self.eda(dataset_id)
+        >>> print(df_eda)
+                    column_name  column_type  iv  auc_1  auc_2  auc_3  bins  catchment  \
+        0             var1         numeric  0.5   0.85   0.90   0.95    10       True   
+        1             var2         categorical  0.4   0.75   0.80   0.85     5       True   
+        2             var3         numeric  0.3   0.60   0.70   0.80    20       False   
+        ...           ...              ...  ...    ...    ...    ...   ...        ...
 
         """
 #         params = {
@@ -300,15 +424,17 @@ class automl:
 
     def dataset_info(self,dataset_id):
         """
+        Retrieve information about the dataset with the given unique identifier.
 
         Parameters
         ----------
-        dataset_id :  An unique identifier for the dataset
-            
+        dataset_id : str
+            Unique identifier for the dataset.
 
         Returns
         -------
-
+        dict
+            A dictionary containing information about the dataset, including its creation and update timestamps.
         """
         
         url = "https://automlapis-us.geoiq.io/wrapper/prod/dataset/v1.0/getdatasetinfo"
@@ -325,10 +451,30 @@ class automl:
         dict_nested['created_at'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(dict_nested['created_at']))
         dict_nested['updated_at'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(dict_nested['updated_at']))
     
-        return dict_nested
+        return {key: dict_nested[key] for key in ['address_col', 'created_at', 'data_path', 'data_type', 'dv_col',
+                                     'dv_positive', 'dv_rate', 'geocoding', 'identifier_col',
+                                      'lat_col', 'lng_col', 'name', 'number_of_categorical',
+                                     'number_of_columns', 'number_of_numerical', 'number_of_rows', 'number_of_rows_geoiq',
+                                     'pincode_col', 'remarks', 'status', 'total_dv_rate', 'updated_at', 'user_selected_vars']}
 
     
     def delete_dataset(self, dataset_id):
+        
+        """
+        Delete a dataset with the given dataset identifier.
+
+        Parameters
+        ----------
+        dataset_id : str
+            Unique identifier for the dataset to be deleted.
+
+        Returns
+        -------
+        None
+            This function does not return any value. It prints a message indicating whether the dataset was
+            deleted successfully or not.
+        """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/dataset/v1.0/deletedataset"
 
         payload = json.dumps({
@@ -347,20 +493,24 @@ class automl:
 
     def variable_distribution_plot(self,dataset_id,variable_name, quantize=True):
         """
+        Plots the distribution of a variable from a given dataset using quantize or quantile data.
 
         Parameters
         ----------
-        dataset_id : An unique identifier for the dataset
-            
-        variable_name : variable to be plotted
-            
-        quantize : To plot the quantize graph.
-             (Default value = True)
+        dataset_id : str
+            An unique identifier for the dataset.
+        variable_name : str
+            The name of the variable to be plotted.
+        quantize : bool, optional
+            Determines whether to use quantize data or quantile data for plotting. 
+            If True, uses quantize data. If False, uses quantile data. 
+            (Default value is True)
 
         Returns
         -------
-        Plot the variable distribution
-        
+        None
+            Plots the variable distribution as a bar chart with count of observations on the primary y-axis 
+        and percentage of positive observations on the secondary y-axis.
 
         """
         
@@ -419,26 +569,25 @@ class automl:
 ##### Custom Model
     def create_custom_model(self,dataset_id,model_name,model_type = "xgboost", split_ratio ="[0.7,0.3,None]"):
         """
+        Creates a custom machine learning model for a given dataset.
 
         Parameters
         ----------
-        dataset_id : An unique identifier for the dataset
-            
-        model_name : Model name
-            
-        model_type : Model type ['logistic', 'xgboost']
-             (Default value = "xgboost")
-        split_ratio : Train-Validation-Test ratio
-             (Default value = "[0.7)
-        0.3 :
-            
-        None]" :
-            
+        dataset_id : str
+            Unique identifier for the dataset.
+        model_name : str
+            Name of the model.
+        model_type : str, optional
+            Type of the model to be created. Must be one of ['logistic', 'xgboost']. 
+            (Default value is "xgboost")
+        split_ratio : str, optional
+            Train-Validation-Test ratio as a list of three values: [train_ratio, validation_ratio, test_ratio].
+            (Default value is "[0.7,0.3,None]")
 
         Returns
         -------
-        Returns the model id
-        
+        str
+            Model ID of the created model.
 
         """
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/createmodel"
@@ -458,6 +607,19 @@ class automl:
         return model_id
     
     def delete_model(self, model_id):
+        """
+        Deletes a trained model from the GeoIQ AutoML API by its unique ID.
+
+        Parameters
+        ----------
+            model_id (str): The ID of the model to delete.
+
+        Returns
+        -------
+            None
+
+        """
+
         url = "https://automlapis-us.geoiq.io/wrapper/prod/dataset/v1.0/deletemodel"
 
         payload = json.dumps({
@@ -494,8 +656,8 @@ class automl:
         })
 
         response = requests.request("POST", url, headers=self.headers, data=payload)
-
-        return (response.json()['data']['progress'][0])
+        progress_dict  = response.json()['data']['progress'][0]
+        return {key: progress_dict[key] for key in ['model_id','model_name','status_text']} 
 
 
 
@@ -503,15 +665,20 @@ class automl:
 
     def model_summary(self,model_id):
         """
+        Retrieves performance metrics and other details of a machine learning model by its ID.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-            
+        model_id : str
+            Unique identifier for the model.
 
         Returns
         -------
-        A dict containing performance metrics of the model
+        pd.DataFrame
+            A DataFrame containing performance metrics and other details of the model, including model name,
+            start time, completion time, dependent variable column name, dependent variable rate, model comments,
+            variable count, IV (Information Value) for holdout data, IV for training data, holdout AUC (Area Under
+            the Curve), training AUC, holdout KS (Kolmogorov-Smirnov statistic), and training KS.
 
         """
         
@@ -537,17 +704,19 @@ class automl:
 
     def create_lift_chart(self,model_id):
         """
+        Generates a lift chart for the given model ID.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-            
+        model_id : str
+            An unique identifier for the model.
 
         Returns
         -------
-        Plots the lift chart
-
+        None
+            Plots the lift chart.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getmodelliftchart"
 
         payload = json.dumps({
@@ -571,17 +740,16 @@ class automl:
 
     def create_roc_chart(self,model_id):
         """
+        Generates a ROC (Receiver Operating Characteristic) curve for the given model ID.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-            
+        model_id : str
+            An unique identifier for the model.
 
         Returns
         -------
-        Plot Receiver operating characteristic (ROC) curve
-        
-
+            Plots the ROC curve.
         """
         
         
@@ -617,18 +785,19 @@ class automl:
 
     def get_feature_importance(self,model_id):
         """
+        Retrieves the feature importance for the given model ID.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-            
+        model_id : str
+            An unique identifier for the model.
 
         Returns
         -------
-        A dataframe containing feature importance
-        
-
+        pd.DataFrame
+            A dataframe containing the feature importance.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getmodelfeatureimportance"
 
         payload = json.dumps({
@@ -644,18 +813,36 @@ class automl:
 
     def get_gains_table(self,model_id,split = 'train'):
         """
+        Retrieves the gains table for a given model ID.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-            
-        split : 
-             (Default value = 'train')
+        model_id : str
+            A unique identifier for the model.
+        split : str, optional
+            The split for which to retrieve the gains table, either 'train' or 'holdout'.
+            (default is 'train')
 
         Returns
         -------
+        pd.DataFrame
+            A pandas DataFrame containing the gains table with the following columns:
+            - 'Decile': Decile values
+            - 'Score Range': Score range for each decile
+            - 'Non-positive Class Count': Count of non-positive class instances in each decile
+            - 'Positive Class Count': Count of positive class instances in each decile
+            - 'KS': Kolmogorov-Smirnov (KS) statistic for each decile
+            - 'Positive Class Percentage': Percentage of positive class instances in each decile
+
+
+        Example
+        -------
+        >>> automl_model = AutoMLModel()
+        >>> gains_table_train = automl_model.get_gains_table(model_id='model123', split='train')
+        >>> gains_table_holdout = automl_model.get_gains_table(model_id='model123', split='holdout')
 
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getgainstable"
 
         payload = json.dumps({
@@ -691,20 +878,23 @@ class automl:
 
     def get_confusion_matrix(self,dataset_id,model_id,threshold):
         """
+        Retrieves the confusion matrix for the given dataset ID, model ID, and threshold.
 
         Parameters
         ----------
-        dataset_id : An unique identifier for the dataset
-            
-        model_id : An unique identifier for the model
-            
-        threshold :
-            
+        dataset_id : str
+            An unique identifier for the dataset.
+        model_id : str
+            An unique identifier for the model.
+        threshold : float
+            The threshold used for prediction.
 
         Returns
         -------
-
+        pd.DataFrame
+            A dataframe containing the confusion matrix.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getmodelconfusionmatrix"
 
         payload = json.dumps({
@@ -720,38 +910,44 @@ class automl:
                                        latitude = '\'\'' , longitude = '\'\'',unique_col = 'geoiq_identifier_col',
                                        geocoding = 'f', address= '\'\'', pincode= '\'\'',user_selected_vars = '\'\''):
         """
+        Creates a validation dataset for the given model ID and dataset ID using the provided dataframe.
 
         Parameters
         ----------
-        df : A dataframe containing the user data, which should contains target variable, customer location details, and additional variables. 
-
-        name : Name of the dataset
-             (Default value = 'test')
-        dv_col : Target variable column name
-             (Default value = 'dv')
-        dv_positive : Specify the good observation in the dataset 
-             (Default value = '1')
-        latitude : Latitutde column in the dataframe
-             (Default value = "geo_latitude")
-        longitude : Latitutde column in the dataframe
-             (Default value = "geo_longitude")
-        unique_col : Unique identifier in the dataset
-             (Default value = 'geoiq_identifier_col')
-        geocoding : If geocoding is required need to be true
-             (Default value = 'false')
-        address_col : Address column in the dataframe
-             (Default value = '\'\'')
-        pincode_col : Pincode column in the dataframe
-             (Default value = '\'\'')
-        model_id : An unique identifier for the model
-        dataset_id : An unique identifier for the dataset
-        user_selected_vars : Additional variables need to be passed in the creation of the model
-             (Default value = '\'\'')
+        df : pd.DataFrame
+            A dataframe containing the user data, which should contain the target variable, customer location details,
+            and additional variables.
+        model_id : str
+            An unique identifier for the model.
+        dataset_id : str
+            An unique identifier for the dataset.
+        name : str, optional
+            Name of the validation dataset. (Default value is 'validation_dataset')
+        dv_col : str, optional
+            Target variable column name. (Default value is 'dv')
+        dv_positive : str, optional
+            Specify the positive observation in the dataset. (Default value is '1')
+        latitude : str, optional
+            Latitude column in the dataframe. (Default value is 'geo_latitude')
+        longitude : str, optional
+            Longitude column in the dataframe. (Default value is 'geo_longitude')
+        unique_col : str, optional
+            Unique identifier in the dataset. (Default value is 'geoiq_identifier_col')
+        geocoding : str, optional
+            If geocoding is required, it should be set to 'true'. (Default value is 'false')
+        address : str, optional
+            Address column in the dataframe. (Default value is '\'\'')
+        pincode : str, optional
+            Pincode column in the dataframe. (Default value is '\'\'')
+        user_selected_vars : str, optional
+            Additional variables to be passed in the creation of the model. (Default value is '\'\'')
 
         Returns
         -------
-
+        str
+            Unique identifier for the validation dataset.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/validationdatasets/v1.0/createvddataset"
 
         df.to_csv(f'/tmp/{name}.csv',index=False)
@@ -790,17 +986,18 @@ class automl:
 
     def create_validation_lift_chart(self,validation_dataset_id):
         """
+        Retrieves the lift chart for the given validation dataset ID.
 
         Parameters
         ----------
-        validation_dataset_id : An unique identifier for the validation dataset
-
+        validation_dataset_id : str
+            Unique identifier for the validation dataset.
 
         Returns
         -------
-        Plots the lift chart
-
+            Plots the lift chart.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/validationdatasets/v1.0/getmodelliftchart"
 
         payload = json.dumps({
@@ -824,17 +1021,17 @@ class automl:
 
     def create_validation_roc_chart(self,validation_dataset_id):
         """
+        Creates a Receiver Operating Characteristic (ROC) chart for a given validation dataset.
 
         Parameters
         ----------
-        validation_dataset_id : An unique identifier for the validation dataset
-
+        validation_dataset_id : str
+            Unique identifier for the validation dataset.
 
         Returns
         -------
-        Plot Receiver operating characteristic (ROC) curve
-
-
+        None
+            Plots the ROC Curve.
         """
 
 
@@ -872,18 +1069,21 @@ class automl:
 
     def get_validation_gains_table(self,validation_dataset_id,split = 'train'):
         """
+        Retrieves a validation gains table for a given validation dataset.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-
-        split : train or validation
-             (Default value = 'train')
+        validation_dataset_id : str
+            Unique identifier for the validation dataset.
+        split : str, optional
+            Split type ('train' or 'validation'), by default 'train'.
 
         Returns
         -------
-
+        pandas.DataFrame
+            Validation gains table as a DataFrame.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/validationdatasets/v1.0/getgainstable"
 
         payload = json.dumps({
@@ -917,15 +1117,19 @@ class automl:
 
     def get_validation_psi_table(self,validation_dataset_id):
         """
+        Retrieves a validation PSI (Population Stability Index) table for a given validation dataset.
 
         Parameters
         ----------
-        validation_dataset_id : An unique identifier for the validation dataset
+        validation_dataset_id : str
+            Unique identifier for the validation dataset.
 
         Returns
         -------
-
+        pandas.DataFrame
+            Validation PSI table as a DataFrame.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/validationdatasets/v1.0/getpsitable"
 
         payload = json.dumps({
@@ -940,6 +1144,20 @@ class automl:
     
     
     def batch_prediction_download(self, validation_dataset_id):
+        """
+        Downloads batch predictions for a given validation dataset.
+
+        Parameters
+        ----------
+        validation_dataset_id : str
+            Unique identifier for the validation dataset.
+
+        Returns
+        -------
+        str
+            URL to download the batch predictions.
+        """
+            
         url = "https://automlapis-us.geoiq.io/wrapper/prod/validationdatasets/v1.0/getvdproperties"
 
         payload = json.dumps({
@@ -954,18 +1172,19 @@ class automl:
 
     def list_validation_datasets(self,model_id):
         """
+        Lists all the validation datasets created for a given model.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
-
+        model_id : str
+            Unique identifier for the model.
 
         Returns
         -------
-        Lists all the validationdatasets created by the user
-
-
+        pandas.DataFrame
+            List of validation datasets as a DataFrame.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/validationdatasets/v1.0/getallvddatasets"
 
         payload=json.dumps({
@@ -983,15 +1202,19 @@ class automl:
 
     def get_deployed_model_endpoint(self,model_id):
         """
+        Retrieves the endpoint of a deployed model for a given model ID.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
+        model_id : str
+            Unique identifier for the model.
 
         Returns
         -------
-
+        str
+            Endpoint URL of the deployed model.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getdeployedmodelendpoint"
 
         payload = json.dumps({
@@ -1012,15 +1235,19 @@ class automl:
     # Create Endpoint for Model / Deploy Model
     def create_deployed_model_endpoint(self,model_id):
         """
+        Creates an endpoint for a deployed model.
 
         Parameters
         ----------
-        model_id : An unique identifier for the model
+        model_id : str
+            Unique identifier for the model.
 
         Returns
         -------
-
+        pandas.DataFrame
+            DataFrame containing endpoint details, including the created_at timestamp.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/createmodelendpoint"
 
         payload = json.dumps({
@@ -1036,20 +1263,24 @@ class automl:
 
     
     def get_model_var(self, latitude,longitude, model_id):
-        
         """
+        Retrieves geoiq variables for a given latitude and longitude using a deployed model.
 
         Parameters
         ----------
-        latitude : latitude value
-        longitude : longitude value
-        model_id : An unique identifier for the model
+        latitude : float
+            Latitude value.
+        longitude : float
+            Longitude value.
+        model_id : str
+            Unique identifier for the model.
 
         Returns
         -------
-        Return a dataframe containing geoiq variables for new lat long selected in the model 
-
+        pandas.DataFrame
+            DataFrame containing geoiq variables for the given latitude and longitude.
         """
+        
         url = "https://automlapis-us.geoiq.io/wrapper/prod/model/v1.0/getmodelfeatureimportance"
 
         payload = json.dumps({
